@@ -1,0 +1,41 @@
+name: Build Flatpak
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Install Dependencies
+        run: |
+          sudo su
+          apt install flatpak flatpak-builder -y
+          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install org.kde.Sdk//5.15 -y
+          flatpak install org.kde.Platform//5.15 -y
+
+      # Runs a set of commands using the runners shell
+      - name: Build Package
+        run: flatpak-builder ../build lemonlime.yml
+        
+      - name: Pack
+        run: |
+         flatpak-builder ../build lemonlime.yml --repo=../repo --force-clean
+         tar -czvf repo.tar.gz ../repo
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: LemonLime-repo.tar.gz
+          path: ./repo.tar.gz
