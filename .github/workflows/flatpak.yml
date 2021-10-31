@@ -19,11 +19,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo su
-          apt install flatpak flatpak-builder -y
-          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          flatpak install org.kde.Sdk//5.15 -y
-          flatpak install org.kde.Platform//5.15 -y
+          sudo apt install flatpak flatpak-builder -y
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install org.kde.Sdk//5.15 -y
+          sudo flatpak install org.kde.Platform//5.15 -y
 
       - name: Build Package
         run: flatpak-builder ../build lemonlime.yml
