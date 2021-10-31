@@ -1,6 +1,6 @@
 app-id: org.project_lemonlime.lemonlime
 runtime: org.kde.Platform
-runtime-version: '5.15lts'
+runtime-version: '5.15'
 sdk: org.kde.Sdk
 command: lemon
 finish-args:
